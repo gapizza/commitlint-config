@@ -12,14 +12,14 @@
     }
   },
   "dependencies": {
-    "@commitlint/config-conventional": "^12.1.1"
+    "@commitlint/config-conventional": "^13.1.0"
   },
   "devDependencies": {
-    "commitizen": "^4.2.3",
-    "commitlint": "^12.1.1",
+    "commitizen": "^4.2.4",
+    "commitlint": "^13.1.0",
     "cz-conventional-changelog": "^3.3.0",
     "fixpack": "^4.0.0",
-    "husky": "^6.0.0"
+    "husky": "^7.0.1"
   },
   "files": [
     "index.js"
