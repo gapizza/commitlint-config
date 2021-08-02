@@ -12,14 +12,22 @@
     }
   },
   "dependencies": {
-    "@commitlint/config-conventional": "^12.1.1"
+    "@commitlint/config-conventional": "^13.1.0"
   },
   "devDependencies": {
-    "commitizen": "^4.2.3",
-    "commitlint": "^12.1.1",
+    "@commitlint/cli": "^13.1.0",
+    "@commitlint/config-conventional": "^13.1.0",
+    "commitizen": "^4.2.4",
+    "commitlint": "^13.1.0",
     "cz-conventional-changelog": "^3.3.0",
     "fixpack": "^4.0.0",
-    "husky": "^6.0.0"
+    "husky": "^7.0.1",
+    "lint-staged": "^11.1.1",
+    "npm-package-json-lint": "^5.2.2"
+  },
+  "engines": {
+    "node": "^16.0.0",
+    "npm": "^7.0.0"
   },
   "files": [
     "index.js"
@@ -31,18 +39,26 @@
     "lint"
   ],
   "license": "MIT",
+  "lint-staged": {
+    "./package.json": [
+      "fixpack"
+    ]
+  },
   "main": "index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/gapizza/commitlint-config.git"
   },
   "scripts": {
+    "beta": "npm run update:packageVersion && ./scripts/publish-beta.sh",
     "commit": "git-cz",
-    "major": "npm version major && npm publish",
-    "minor": "npm version minor && npm publish",
-    "patch": "npm version patch && npm publish",
-    "postpublish": "git push",
+    "lint:pjson": "npmPkgJsonLint .",
+    "major": "npm run update:packageVersion && npm version --git-tag-version false major && npm publish && npm run tag",
+    "minor": "npm run update:packageVersion && npm version --git-tag-version false minor && npm publish && npm run tag",
+    "patch": "npm run update:packageVersion && npm version --git-tag-version false patch && npm publish && npm run tag",
     "prepare": "fixpack && husky install",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "tag": "git stash && git tag v\"$(npm view @gapizza/commitlint-config version)\" && git push origin --tags",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "update:packageVersion": "cat package.json | jq \".version = \\\"$(npm view @gapizza/commitlint-config version)\\\"\" > package.json"
   }
 }
